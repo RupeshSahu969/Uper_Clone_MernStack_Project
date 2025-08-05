@@ -14,7 +14,11 @@ module.exports.registerUser = async (req, res, next) => {
   // Access the fields correctly from the request body
   const { fullname, email, password } = req.body;
   const { firstname, lastname } = fullname; // Access nested fields
+  const isuserAlreadyExits=await User.findOne({email})
 
+if(isuserAlreadyExits){
+   return  res.status(400).json({message:"user already exist"})
+}
   try {
     // Hash the password before saving
     const hashedPassword = await User.hashPassword(password);

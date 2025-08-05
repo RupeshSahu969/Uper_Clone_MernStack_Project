@@ -3,7 +3,7 @@
 ## `/user/register` Endpoint
 
 ### Description
-Registers a new user in the system. This endpoint accepts user details, validates the input, hashes the password, creates a user record, and returns an authentication token upon successful registration.
+Registers a new user in the system. Accepts user details, validates input, hashes the password, creates a user record, and returns an authentication token upon successful registration.
 
 ### Method & URL
 - **POST** `/user/register`
@@ -91,7 +91,7 @@ Authenticates a user using their email and password. Returns an authentication t
 - **Body:**
   ```json
   {
-    "message": "Login Succesfully",
+    "message": "Login Successfully",
     "token": "JWT token string",
     "user": {
       "fullname": {
@@ -139,11 +139,22 @@ Authenticates a user using their email and password. Returns an authentication t
 
 ### Example Login Request
 
-<!-- ```http -->
+```http
+POST /user/login
+Content-Type: application/json
+
+{
+  "email": "john.doe@example.com",
+  "password": "securePassword123"
+}
+```
+
+---
+
 ## `/user/profile` Endpoint
 
 ### Description
-Retrieves the profile information of the currently authenticated user.  Requires a valid JWT token in the `Authorization` header.
+Retrieves the profile information of the currently authenticated user. Requires a valid JWT token in the `Authorization` header.
 
 ### Method & URL
 - **GET** `/user/profile`
@@ -178,7 +189,7 @@ Retrieves the profile information of the currently authenticated user.  Requires
 
 #### Other Errors
 - **Status Code:** `500 Internal Server Error`
-- **Body:**
+- **Body:**  
   Error details as handled by the error middleware.
 
 ---
@@ -186,7 +197,7 @@ Retrieves the profile information of the currently authenticated user.  Requires
 ## `/user/logout` Endpoint
 
 ### Description
-Logs out the current user by invalidating the JWT token.  This endpoint clears the token cookie and blacklists the token to prevent reuse.
+Logs out the current user by invalidating the JWT token. Clears the token cookie and blacklists the token to prevent reuse.
 
 ### Method & URL
 - **POST** `/user/logout`
@@ -219,13 +230,47 @@ Logs out the current user by invalidating the JWT token.  This endpoint clears t
 
 #### Other Errors
 - **Status Code:** `500 Internal Server Error`
-- **Body:**
+- **Body:**  
   Error details as handled by the error middleware.
-POST /user/login
-Content-Type: application/json
 
+---
+
+## `/captain/register` Endpoint
+
+### Description
+Registers a new captain with personal and vehicle details.
+
+### Method & URL
+- **POST** `/captain/register`
+
+### Required Data (Body)
+```json
 {
-  "email": "john.doe@example.com",
-  "password": "securePassword123"
-
+  "fullname": {
+    "firstname": "string", // Captain's first name
+    "lastname": "string"   // Captain's last name
+  },
+  "password": "string",     // Account password
+  "email": "string",        // Captain's email address
+  "vehicle": {
+    "color": "string",      // Vehicle color
+    "plate": "string",      // Vehicle plate number
+    "capacity": "number",   // Vehicle seating capacity
+    "vehicleType": "string" // Type of vehicle (e.g., car, bike)
+  }
 }
+```
+
+### Status Codes & Responses
+
+#### Success
+- **Status Code:** `201 Created`
+- **Body:** Captain registered successfully.
+
+#### Validation Error
+- **Status Code:** `400 Bad Request`
+- **Body:** Invalid input data.
+
+#### Conflict
+- **Status Code:** `409 Conflict`
+- **Body:** Email or vehicle already registered.

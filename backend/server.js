@@ -5,7 +5,10 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const path = require("path");
 const userRouter = require("./routes/userRouter");
+const captainRouter=require("./routes/captainRouter");
+
 const cookieParser = require('cookie-parser')
+
 connectDB();
 const app = express();
 
@@ -19,6 +22,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/user", userRouter);
+app.use("/captain",captainRouter)
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
