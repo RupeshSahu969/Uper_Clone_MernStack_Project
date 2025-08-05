@@ -96,7 +96,7 @@ module.exports.loginUser = async (req, res, next) => {
 
 
 module.exports.getUserProfile = async (req, res, next) => {
-    // Ensure user is set correctly in the middleware
+   
     if (!req.user) {
         return res.status(401).json({ message: "Unauthorized: No user found" });
     }

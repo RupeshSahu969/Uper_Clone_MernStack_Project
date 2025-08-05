@@ -140,6 +140,87 @@ Authenticates a user using their email and password. Returns an authentication t
 ### Example Login Request
 
 <!-- ```http -->
+## `/user/profile` Endpoint
+
+### Description
+Retrieves the profile information of the currently authenticated user.  Requires a valid JWT token in the `Authorization` header.
+
+### Method & URL
+- **GET** `/user/profile`
+
+### Request Headers
+- `Authorization`: `Bearer <JWT token>`
+
+### Status Codes & Responses
+
+#### Success
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "fullname": {
+      "firstname": "string",
+      "lastname": "string"
+    },
+    "email": "string",
+    "other_profile_fields": "..."
+  }
+  ```
+
+#### Unauthorized
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+  ```json
+  {
+    "message": "Unauthorized: No user found"
+  }
+  ```
+
+#### Other Errors
+- **Status Code:** `500 Internal Server Error`
+- **Body:**
+  Error details as handled by the error middleware.
+
+---
+
+## `/user/logout` Endpoint
+
+### Description
+Logs out the current user by invalidating the JWT token.  This endpoint clears the token cookie and blacklists the token to prevent reuse.
+
+### Method & URL
+- **POST** `/user/logout`
+
+### Request Headers (Optional)
+- `Authorization`: `Bearer <JWT token>` (If token is not in cookie)
+
+### Cookies
+- The endpoint also clears the `token` cookie.
+
+### Status Codes & Responses
+
+#### Success
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "message": "Logged out"
+  }
+  ```
+
+#### Bad Request
+- **Status Code:** `400 Bad Request`
+- **Body:**
+  ```json
+  {
+    "message": "No token provided for logout."
+  }
+  ```
+
+#### Other Errors
+- **Status Code:** `500 Internal Server Error`
+- **Body:**
+  Error details as handled by the error middleware.
 POST /user/login
 Content-Type: application/json
 

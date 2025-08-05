@@ -8,16 +8,9 @@ export const authUser = async (req, res, next) => {
         return res.status(401).json({ message: "Unauthorized: Token is missing" });
     }
 
-    // Check if the token is blacklisted (assuming you store blacklisted tokens in the User model)
+    
     const isBlackList = await User.findOne({ token: token });
-    // If you want to blocklist all tokens after logout, you should maintain a blacklist collection or array.
-    // Here, you can check against a blacklist collection (e.g., BlacklistedToken model).
-    // Example:
-    // const BlacklistedToken = require('../models/blacklistModel');
-    // const isBlacklisted = await BlacklistedToken.findOne({ token });
-    // if (isBlacklisted) {
-    //     return res.status(401).json({ message: 'Unauthorized: Token is blacklisted' });
-    // }
+   
     if (isBlackList) {
         return res.status(401).json({ message: 'Unauthorized: Token is blacklisted' });
     }
