@@ -34,7 +34,11 @@ const UserSchema = new Schema({
 
 // Instance method: Generate Auth Token
 UserSchema.methods.generateAuthToken = function () {
-    const token = jwt.sign({ _id: this._id }, process.env.JWT_SECRET, { expiresIn: '1h' }); // Add expiration time for security
+    const token = jwt.sign(
+        { _id: this._id },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' } // Token expires in 24 hours
+    );
     return token;
 };
 
