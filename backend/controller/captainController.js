@@ -1,5 +1,6 @@
 const captainModel  = require("../models/captainModel");
-const captainService = require("../services/captainServices"); // <-- Correct import
+const captainService = require("../services/captainServices"); 
+
 const { validationResult } = require("express-validator");
 
 module.exports.registerCaptain = async (req, res, next) => {
@@ -8,7 +9,7 @@ module.exports.registerCaptain = async (req, res, next) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-// console.log(req.body)
+
   const { fullname, email, password, vehicle } = req.body;
 
   
