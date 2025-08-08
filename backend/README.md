@@ -338,7 +338,100 @@ Authenticates a captain using their email and password. Returns an authenticatio
   }
   ```
 
+#### Other Errors
+- **Status Code:** `500 Internal Server Error`
+- **Body:**  
+  Error details as handled by the error middleware.
 
 
+...existing code...
+```markdown
+## `/captain/profile` Endpoint
 
+### Description
+Retrieves the profile information of the currently authenticated captain. Requires a valid JWT token in the `Authorization` header.
+
+### Method & URL
+- **GET** `/captain/profile`
+
+### Request Headers
+- `Authorization`: `Bearer <JWT token>`
+
+### Status Codes & Responses
+
+#### Success
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "_id": "string",
+    "fullname": {
+      "firstname": "string",
+      "lastname": "string"
+    },
+    "email": "string",
+    "vehicle": {
+      "color": "string",
+      "plate": "string",
+      "capacity": "number",
+      "vehicleType": "string"
+    }
+  }
+  ```
+
+#### Unauthorized
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+  ```json
+  {
+    "message": "Unauthorized: No captain found"
+  }
+  ```
+
+#### Other Errors
+- **Status Code:** `500 Internal Server Error`
+- **Body:**  
+  Error details as handled by the error middleware.
+
+---
+
+## `/captain/logout` Endpoint
+
+### Description
+Logs out the current captain by invalidating the JWT token. Clears the token cookie and blacklists the token to prevent reuse.
+
+### Method & URL
+- **POST** `/captain/logout`
+
+### Request Headers (Optional)
+- `Authorization`: `Bearer <JWT token>` (If token is not in cookie)
+
+### Cookies
+- The endpoint also clears the `token` cookie.
+
+### Status Codes & Responses
+
+#### Success
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "message": "Logged out"
+  }
+  ```
+
+#### Bad Request
+- **Status Code:** `400 Bad Request`
+- **Body:**
+  ```json
+  {
+    "message": "No token provided for logout."
+  }
+  ```
+
+#### Other Errors
+- **Status Code:** `500 Internal Server Error`
+- **Body:**  
+  Error details as handled by the error middleware.
+```
 

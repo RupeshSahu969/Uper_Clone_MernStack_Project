@@ -1,6 +1,6 @@
 const captainModel  = require("../models/captainModel");
 const captainService = require("../services/captainServices"); 
-
+const blacklistTokenModel=require("../models/blocklistTokenModels");
 const { validationResult } = require("express-validator");
 
 module.exports.registerCaptain = async (req, res, next) => {
@@ -85,6 +85,35 @@ module.exports.loginUser = async (req, res, next) => {
     }
 };
 
+module.exports.getCaptainProfile = async (req, res, next) => {
+
+    if (!req.captain) {
+        return res.status(401).json({ message: "Unauthorized: No captain found" });
+    }
+
+    res.status(200).json(req.captain);
+};
+
+
+module.exports.logoutCaptain = async (req, res, next) => {
+
+   res.clearCookie('token');
+     const token = req.cookies.token || (req.header('Authorization') && req.header('Authorization').split(' ')[1]);
+   
+     if (!token) {
+       return res.status(400).json({ message: 'No token provided for logout.' });
+     }
+   
+     try {
+       const exists = await blacklistTokenModel.findOne({ token });
+       if (!exists) {
+         await blacklistTokenModel.create({ token });
+       }
+       res.status(200).json({ message: 'Logged out' });
+     } catch (error) {
+       next(error);
+     }
+};
 
 
 
