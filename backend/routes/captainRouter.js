@@ -19,7 +19,7 @@ router.post('/login',[
   body('email').isEmail().withMessage('Invalid Email'),
   body('password').isLength({min:6}).withMessage('password')
 ],
-// userController.loginUser
+captainController.loginUser
 )
 
 module.exports=router;

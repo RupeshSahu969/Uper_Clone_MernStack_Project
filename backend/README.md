@@ -274,3 +274,71 @@ Registers a new captain with personal and vehicle details.
 #### Conflict
 - **Status Code:** `409 Conflict`
 - **Body:** Email or vehicle already registered.
+
+
+## `/captain/login` Endpoint
+
+### Description
+Authenticates a captain using their email and password. Returns an authentication token and captain details on success.
+
+### Method & URL
+- **POST** `/captain/login`
+
+### Required Data (Body)
+```json
+{
+  "email": "string (valid email, required)",
+  "password": "string (min 6 chars, required)"
+}
+```
+
+### Status Codes & Responses
+
+#### Success
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "message": "Login Successfully",
+    "token": "JWT token string",
+    "user": {
+      "fullname": {
+        "firstname": "string",
+        "lastname": "string"
+      },
+      "email": "string"
+    }
+  }
+  ```
+
+#### Validation Error
+- **Status Code:** `400 Bad Request`
+- **Body:**
+  ```json
+  {
+    "errors": [
+      {
+        "msg": "Invalid Email",
+        "param": "email"
+      },
+      {
+        "msg": "Password must be at least 6 characters long",
+        "param": "password"
+      }
+    ]
+  }
+  ```
+
+#### Invalid Credentials
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+  ```json
+  {
+    "message": "Invalid email and password"
+  }
+  ```
+
+
+
+
+
