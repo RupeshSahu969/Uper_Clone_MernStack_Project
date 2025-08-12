@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { UserDataContext } from '../context/UserContext';
 
 const UserSignup = () => {
   const [firstname, setFirstname] = useState('');
@@ -10,9 +11,9 @@ const UserSignup = () => {
 
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState(''); // 'success' or 'error'
+const { user, setUser } = useContext(UserDataContext)
 
-  const navigate = useNavigate();
-
+  const navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -30,7 +31,9 @@ const UserSignup = () => {
       if (response.status === 201 || response.status === 200) {
         setMessage('Registration successful! Redirecting to login...');
         setMessageType('success');
-
+        const data = response.data;
+             localStorage.setItem('token', data.token)
+        setUser(data.user);
         setTimeout(() => {
           navigate('/login');
         }, 2000); // wait before redirect
@@ -129,7 +132,7 @@ const UserSignup = () => {
             type='submit'
             className='bg-[#111] text-white font-semibold rounded-lg px-4 py-2 w-full text-base mb-3 hover:bg-gray-800 transition'
           >
-            Sign Up
+            Create Account
           </button>
         </form>
 

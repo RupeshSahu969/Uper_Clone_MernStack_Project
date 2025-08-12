@@ -20,11 +20,11 @@ const UserLogin = () => {
         password,
       });
 
-      if (response.status === 200) {
-         const data = response.data
-      setUser(data.user)
-      localStorage.setItem('token', data.token)
-        navigate('/');
+       if (response.status === 200) {
+        const data = response.data;
+        setUser(data.user);
+        localStorage.setItem('token', data.token);  // Save token
+        navigate('/home');  // Redirect to home after successful login
       }
     } catch (error) {
       console.error('Login failed:', error);

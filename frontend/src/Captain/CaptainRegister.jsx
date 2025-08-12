@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { CaptainDataContext } from '../context/CaptainContext';
 
 const CaptainRegister = () => {
   const [firstname, setFirstname] = useState('');
@@ -17,6 +18,7 @@ const CaptainRegister = () => {
   const [messageType, setMessageType] = useState('');
 
   const navigate = useNavigate();
+const { captain, setCaptain } = useContext(CaptainDataContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,6 +43,9 @@ const CaptainRegister = () => {
       if (response.status === 201 || response.status === 200) {
         setMessage('Registration successful! Redirecting to login...');
         setMessageType('success');
+        const data = response.data;
+        setCaptain(data.captain);
+        localStorage.setItem('token', data.token);
 
         setTimeout(() => {
           navigate('/captain-login');

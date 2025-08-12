@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { CaptainDataContext } from '../context/CaptainContext';
 
 const CaptainLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { captain, setCaptain } = useContext(CaptainDataContext);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -18,8 +20,11 @@ const CaptainLogin = () => {
 
       if (response.status === 200) {
         const data = response.data;
+        setCaptain(data.captain);
         localStorage.setItem('token', data.token);
-        navigate('/');
+
+
+        navigate('/captain-home');
       }
     } catch (error) {
       console.error('Login failed:', error);
