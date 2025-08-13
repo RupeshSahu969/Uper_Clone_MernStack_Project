@@ -4,9 +4,10 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const path = require("path");
+const rideRouter=require("./routes/rideRouter");
 const userRouter = require("./routes/userRouter");
 const captainRouter=require("./routes/captainRouter");
-
+const mapsRouter=require("./routes/mapsRouter")
 const cookieParser = require('cookie-parser')
 
 connectDB();
@@ -23,6 +24,8 @@ app.get("/", (req, res) => {
 
 app.use("/user", userRouter);
 app.use("/captain",captainRouter)
+app.use("/maps",mapsRouter)
+app.use('/ride', rideRouter);
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
