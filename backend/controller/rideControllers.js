@@ -31,7 +31,6 @@ module.exports.createRide=async(req,res,next)=>{
     }
     }
 
-
     module.exports.getFare=async(req,res,next)=>{
         const errors=validationResult(req);
         if(!errors.isEmpty()){
@@ -56,7 +55,18 @@ module.exports.createRide=async(req,res,next)=>{
     }
 
     module.exports.confirmRide=async(req,res,next)=>{
-
+        const {rideId}=req.params;
+        try {
+            const ride = await rideService.confirmRide(rideId);
+            res.status(200).json({
+                status: 'success',
+                data: {
+                    ride
+                }
+            });
+        } catch (error) {
+            res.status(500).json({error:error.message})
+        }
     }
 
     module.exports.startRide=async(req,res,next)=>{
